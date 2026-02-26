@@ -9,7 +9,7 @@ class AudioService {
   }
 
   /**
-   * Synthesizes a short, low-fidelity beep sound typical of early mobile phone UI feedback.
+   * Synthesizes a sharp, short square-wave beep typical of vintage computer systems (PC speaker style).
    */
   public playKeySound(isSpace = false) {
     this.init();
@@ -23,28 +23,29 @@ class AudioService {
     const osc = this.audioContext.createOscillator();
     const gain = this.audioContext.createGain();
 
-    // Early mobile phones used simple oscillators, often sine or slightly rounded square waves.
-    osc.type = 'sine';
+    // Square waves provide that hollow, buzzy retro computer sound.
+    osc.type = 'square';
     
-    // Low-ish frequency beep for that "old tech" UI feel.
-    // Keys at ~880Hz (A5), Space slightly lower at ~587Hz (D5).
-    const frequency = isSpace ? 587.33 : 880.00;
+    // Higher frequencies for that "blip" effect.
+    // Standard keys at 1200Hz, Space at 900Hz.
+    const frequency = isSpace ? 900 : 1200;
     
-    // Add a tiny bit of random pitch variation for a less robotic feel
-    const variance = (Math.random() - 0.5) * 5;
+    // Minimal pitch variation for consistency
+    const variance = (Math.random() - 0.5) * 10;
     osc.frequency.setValueAtTime(frequency + variance, now);
     
-    // Very short duration: 25ms-40ms
-    const duration = isSpace ? 0.04 : 0.025;
+    // Extremely short duration for a "blip" rather than a "beep": 15ms-25ms
+    const duration = isSpace ? 0.025 : 0.015;
     
-    gain.gain.setValueAtTime(0.1, now);
+    // Square waves are perceptionally louder, so we keep the gain low.
+    gain.gain.setValueAtTime(0.04, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
 
     osc.connect(gain);
     gain.connect(this.audioContext.destination);
 
     osc.start(now);
-    osc.stop(now + duration + 0.01);
+    osc.stop(now + duration + 0.005);
   }
 
   public playSpaceSound() {
