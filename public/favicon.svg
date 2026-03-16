@@ -1,0 +1,5 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="white"/>
+  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="320" fill="black">M</text>
+  <rect x="380" y="360" width="60" height="12" fill="black"/>
+</svg>
