@@ -158,6 +158,13 @@ const App: React.FC = () => {
     URL.revokeObjectURL(url);
   }, [text, docName]);
 
+  const handleClear = useCallback(() => {
+    setText('');
+    setDocName(getRandomTitle());
+    setCursorPos(0);
+    textareaRef.current?.focus();
+  }, []);
+
   const Cursor = () => (
     <span className={`cursor-blink border-b-[3px] ${isDarkMode ? 'border-white' : 'border-black'} inline-block w-4 h-1 -mb-1 transform translate-y-[-4px] mx-[1px]`}></span>
   );
@@ -304,6 +311,19 @@ const App: React.FC = () => {
               <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
               <polyline points="17 21 17 13 7 13 7 21"/>
               <polyline points="7 3 7 8 15 8"/>
+            </svg>
+          </button>
+
+          <button 
+            onClick={handleClear}
+            className={`group flex items-center gap-2 ${isDarkMode ? 'hover:text-white' : 'hover:text-black'} transition-all active:scale-95`}
+            title="Clear content and rename"
+          >
+            <span className="text-[9px] md:text-[10px] font-inter uppercase tracking-[0.15em]">Clear</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 transition-opacity">
+              <path d="M3 6h18"/>
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
             </svg>
           </button>
         </div>
