@@ -53,6 +53,7 @@ const App: React.FC = () => {
   const [showCopied, setShowCopied] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
 
   // Focus capture and cursor sync
   useEffect(() => {
@@ -66,6 +67,13 @@ const App: React.FC = () => {
     textareaRef.current?.focus();
     return () => window.removeEventListener('mousedown', handleGlobalClick);
   }, []);
+
+  // Auto-scroll to cursor
+  useEffect(() => {
+    if (cursorRef.current) {
+      cursorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [text, cursorPos]);
 
   const updateCursorPosition = useCallback(() => {
     if (textareaRef.current) {
@@ -166,7 +174,10 @@ const App: React.FC = () => {
   }, []);
 
   const Cursor = () => (
-    <span className={`cursor-blink border-b-[3px] ${isDarkMode ? 'border-white' : 'border-black'} inline-block w-4 h-1 -mb-1 transform translate-y-[-4px] mx-[1px]`}></span>
+    <span 
+      ref={cursorRef}
+      className={`cursor-blink border-b-[3px] ${isDarkMode ? 'border-white' : 'border-black'} inline-block w-4 h-1 -mb-1 transform translate-y-[-4px] mx-[1px]`}
+    ></span>
   );
 
   // Enhanced rendering logic with index-aware spans and mid-text cursor support
@@ -272,7 +283,7 @@ const App: React.FC = () => {
 
       {/* Main Text Area */}
       <main 
-        className={`flex-grow text-2xl md:text-3xl lg:text-4xl leading-[1.4] md:leading-[1.5] ${isDarkMode ? 'text-white/90' : 'text-black/90'} font-light break-words relative cursor-text min-h-[50vh] tracking-[0.02em]`}
+        className={`flex-grow text-lg md:text-xl lg:text-2xl leading-[1.6] md:leading-[1.7] ${isDarkMode ? 'text-white/90' : 'text-black/90'} font-light break-words relative cursor-text min-h-[50vh] tracking-[0.02em]`}
         onClick={handleContainerClick}
       >
         <div className="inline relative select-none">
