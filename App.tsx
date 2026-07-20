@@ -1,6 +1,5 @@
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { audioService } from './services/audioService';
 
 /**
  * Minimalist Scriptum
@@ -99,16 +98,6 @@ const App: React.FC = () => {
     newText = newText.replace(/(^|[.!?]\s+)([a-z])/g, (match, separator, letter) => {
       return separator + letter.toUpperCase();
     });
-
-    // Audio Feedback
-    if (newText.length !== text.length) {
-      const char = newText[start - 1];
-      if (char === ' ' || char === '\n') {
-        audioService.playSpaceSound();
-      } else {
-        audioService.playKeySound();
-      }
-    }
 
     setText(newText);
     
